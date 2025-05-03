@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html ng-app="currencyApp">
+<head>
+  <meta charset="utf-8">
+  <title>Currency Converter</title>
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.min.js"></script>
+  <style>
+
+    body {
+      font-family: Arial;
+      max-width: 400px;
+      margin: 50px auto;
+      padding: 20px;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+    }
+
+    input, select {
+      margin: 10px 0;
+      padding: 8px;
+      width: 100%;
+    }
+
+    h2 {
+      text-align: center;
+    }
+
+  </style>
+</head>
+<body ng-controller="CurrencyController">
+  <h2>Currency Converter</h2>
+  <label>Amount:</label>
+  <input type="number" ng-model="amount" placeholder="Enter amount" />
+
+  <label>Conversion Type:</label>
+  <select ng-model="conversionType">
+    <option value="inrToUsd">Rupee to Dollar</option>
+    <option value="usdToInr">Dollar to Rupee</option>
+  </select>
+
+  <button ng-click="convert()">Convert</button>
+
+  <h3 ng-if="result !== null">Result: {{ result | number:2 }}</h3>
+
+  <script>
+    angular.module('currencyApp', [])
+      .controller('CurrencyController', function($scope) {
+        $scope.amount = null;
+        $scope.conversionType = 'inrToUsd';
+        $scope.result = null;
+
+        const exchangeRate = 83; // 1 USD = 83 INR
+
+        $scope.convert = function() {
+          if ($scope.amount !== null) {
+            if ($scope.conversionType === 'inrToUsd') {
+              $scope.result = $scope.amount / exchangeRate;
+            } else if ($scope.conversionType === 'usdToInr') {
+              $scope.result = $scope.amount * exchangeRate;
+            }
+          }
+        };
+      });
+  </script>
+
+</body>
+</html>
